@@ -1,0 +1,59 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+header,section,nav,aside,footer,article{
+  display: block;
+}
+h1{
+  font-family: bold Tahoma;
+  font-size: 20px;
+}
+h2{
+  font-family: bold Tahoma;
+  font-size: 15px;
+}
+body{
+
+  display: -webkit-box;
+  -webkit-box-pack:center;
+  background-image: url("medical.jpg");
+  background-size: cover;
+
+}
+.myform{
+  max-width: 1000px;
+  display: -webkit-box;
+  -webkit-box-orient:horizontal;
+  -webkit-box-flex:1;
+  padding: 20px;
+  margin-top: 150px;
+}
+#body_wrap{
+  display: -webkit-box;
+  border: 2px solid blue;
+  -webkit-border-radius: 25px;
+  -webkit-box-shadow: rgb(110,110,110) 10px 10px 10px;
+  padding: 30px;
+  margin-left: 400px;
+  background-color: rgb(220,220,220);
+
+
+}
+#uname{
+  width: 250px;
+  height: 25px;
+
+}
+#Pass{
+  width: 250px;
+  height: 25px;
+  
+}
+#login{
+  width: 150px;
+  height: 25px;  
+}
+
+
+
