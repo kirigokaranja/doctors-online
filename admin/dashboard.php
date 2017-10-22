@@ -22,7 +22,7 @@ include ("connect.php");
 
 if(isset($_SESSION['user_type'])){ ?>
 <ul>
-    <img src='../image/doctor.png' width=100px; height=100px; style="border-radius: 50%;margin-left: 120px;margin-top: 30px;" id="output_image" class='image' ">
+    <img src='../image/doctor.png' width=100px; height=100px; style="border-radius: 50%;margin-left: 80px;margin-top: 30px;" id="output_image" class='image' ">
     <p style="text-align: center; font-size: 20px; color: white;">Administrator</p>
     <li><a  class="active" href="dashboard.php">Dashboard</a></li>
     <li><a href="add_doctor.php">Add Doctor</a></li>

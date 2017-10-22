@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +48,7 @@
         }
         /**navbar endss-- **/
         .table{
-            margin-left: 20%;
+            margin-left: 5%;
             padding: 20px;
             border-spacing: 50px;
         }
@@ -198,12 +201,24 @@
     </style>
 </head>
 <body>
+
 <!-- navbar starts-->
 <div class="topnav" id="myTopnav">
     <a style="float: left; padding: 0px 16px; margin-left: 30px;" href="index.php"><img src="image/logo.jpg" height="140"></a>
-    <a  style="margin-top: 15px;" href="login.php">Login <img src="image/manuser.png" height="20"></a>
-    <a  style="margin-top: 15px; " href="signup.php">Sign up</a>
-    <a href="javascript:void(0);" style="font-size:35px;" class="icon" onclick="myFunction()">&#9776;</a> <!-- navbar icon-->
+    <?php
+    include ("connect.php");
+    if(isset($_SESSION['custID'])){
+        ?>
+        <a  style="margin-top: 15px;" href="personal_details.php">Profile <img src="image/manuser.png" height="20"></a>
+        <a  style="margin-top: 15px; " href="medicalform.php">Consult A Doctor</a>
+        <a href="javascript:void(0);" style="font-size:35px;" class="icon" onclick="myFunction()">&#9776;</a> <!-- navbar icon-->
+
+    <?php }else{?>
+        <a  style="margin-top: 15px;" href="login.php">Login <img src="image/manuser.png" height="20"></a>
+        <a  style="margin-top: 15px; " href="signup.php">Sign up</a>
+        <a href="javascript:void(0);" style="font-size:35px;" class="icon" onclick="myFunction()">&#9776;</a> <!-- navbar icon-->
+
+    <?php } ?>
 </div>
 <!-- navbar ends-->
 
@@ -219,9 +234,9 @@
             <li><a href="http://wowslider.com"><img src="data1/images/doc4.jpg" alt="bootstrap slider" title="" id="wows1_6"/></a></li>
             <li><img src="data1/images/doc6.jpg" alt="" title="" id="wows1_7"/></li>
         </ul></div>
-<script type="text/javascript" src="engine1/wowslider.js"></script>
-<script type="text/javascript" src="engine1/script.js"></script>
-<!-- End WOWSlider.com BODY section -->
+    <script type="text/javascript" src="engine1/wowslider.js"></script>
+    <script type="text/javascript" src="engine1/script.js"></script>
+    <!-- End WOWSlider.com BODY section -->
     <?php
     $url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
@@ -234,23 +249,23 @@
     }
     ?>
     <!-- how it works starts -->
-<div id="works" style="text-align: center;">
-    <br><br><br><br><br><br>
-    <h1 class="works1"> ITS SIMPLE. YOU CAN SEE A DOCTOR AS SOON AS POSSIBLE.</h1>
-    <h2 class="works2"> On your iPhone, iPad, Android or PC.</h2>
-    <table class="table">
-        <tr>
-            <td><img src="image/form1.png" ><h2 class="works3"> 1.Fill in Form Details</h2><p class="works4"> Sign up, Login and give us your details.</p></td>
-            <td><img src="image/doctor.png" ><h2 class="works3"> 2. See a Doctor</h2><p class="works4"> Let a doctor view your symptoms and give feedback.</p></td>
-            <td><img src="image/pill.png" ><h2 class="works3"> 3. Start Feeling Better</h2><p class="works4"> Get medical advice, prescriptions,referrals and fit notes.</p></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><button class="button" onclick="window.location.href='medicalform.php'"> Consult a Doctor!</button></td>
-        </tr>
-    </table>
-<hr style="background-color: blue">
-</div>
+    <div id="works" style="text-align: center;">
+        <br><br><br><br><br><br>
+        <h1 class="works1"> ITS SIMPLE. YOU CAN SEE A DOCTOR AS SOON AS POSSIBLE.</h1>
+        <h2 class="works2"> On your iPhone, iPad, Android or PC.</h2>
+        <table class="table">
+            <tr>
+                <td><img src="image/form1.png" ><h2 class="works3"> 1.Fill in Form Details</h2><p class="works4"> Sign up, Login and give us your details.</p></td>
+                <td><img src="image/doctor.png" ><h2 class="works3"> 2. See a Doctor</h2><p class="works4"> Let a doctor view your symptoms and give feedback.</p></td>
+                <td><img src="image/pill.png" ><h2 class="works3"> 3. Start Feeling Better</h2><p class="works4"> Get medical advice, prescriptions,referrals and fit notes.</p></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button class="button" onclick="window.location.href='medicalform.php'"> Consult a Doctor!</button></td>
+            </tr>
+        </table>
+        <hr style="background-color: blue">
+    </div>
     <!-- how it works ends -->
 
     <!-- doctor information starts-->
@@ -313,8 +328,8 @@
 
     <!-- contact section starts -->
     <div class="contact" id="contact" style="background-color: ghostwhite">
-            <h1 class="works1"> CONTACT US.</h1>
-            <h2 class="works2"> If you have any inquiries send us a message.</h2>
+        <h1 class="works1"> CONTACT US.</h1>
+        <h2 class="works2"> If you have any inquiries send us a message.</h2>
         <div class="content">
 
             <form method="post" action="contact.php">
@@ -371,16 +386,17 @@
     <!--footer ends-->
 
     <!-- responsive navbar javascript-->
-<script>
-    function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-            x.className += " responsive";
-        } else {
-            x.className = "topnav";
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
         }
-    }
-</script>
+    </script>
 
 </body>
 </html>
