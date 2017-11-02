@@ -198,6 +198,13 @@ session_start();
         .sb li:hover{
             opacity: 0.4;
         }
+        .badge{
+            color: white;
+            border: solid 1px red;
+            background-color: red;
+            padding: 3px 10px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -208,8 +215,26 @@ session_start();
     <?php
     include ("connect.php");
     if(isset($_SESSION['custID'])){
+    $custid = $_SESSION['custID'];
+
+    global $db;
+
+    $free = "pending";
+    $r = mysqli_query($db, "SELECT count(feedbackID) FROM feedback WHERE status = '$free' AND custID = '$custid'");
+    while($row1 = mysqli_fetch_assoc($r)){
+        $bdge = $row1['count(feedbackID)'];
+
+        if ($bdge >0){
+            ?>
+            <a  style="margin-top: 15px;" href="personal_details.php">Notifications <span class="badge" id="spanner"><?php echo $bdge;?></span></a>
+            <?php
+        }else{
+            ?>
+            <a  style="margin-top: 15px;" href="personal_details.php">Notifications <img src="image/manuser.png" height="20"></a>
+            <?php
+        }
+    }
         ?>
-        <a  style="margin-top: 15px;" href="personal_details.php">Profile <img src="image/manuser.png" height="20"></a>
         <a  style="margin-top: 15px; " href="medicalform.php">Consult A Doctor</a>
         <a href="javascript:void(0);" style="font-size:35px;" class="icon" onclick="myFunction()">&#9776;</a> <!-- navbar icon-->
 

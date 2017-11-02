@@ -1,3 +1,9 @@
+<html>
+<head>
+    <script src="../dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../dist/sweetalert.css">
+</head>
+<body>
 <?php
 
 include ("connect.php");
@@ -18,11 +24,26 @@ if(isset($_POST['submit'])){
         $adminID = $row['user_type'];
 
         $_SESSION['user_type'] = $adminID;
-        header("Location:dashboard.php");
-    }
-    else {
-        header("Location:login.php?error=wrong");
+?>
 
-    }
+<script>
+    swal({
+        title: "Success",
+        text: "Login successful!",
+        type: "success",
+        timer: 1500,
+        showConfirmButton: false
+    });
+    setTimeout(function () {
+        location.href = "dashboard.php"
+    }, 1000);
+</script>
+
+<?php
+}
+else {
+    header("Location:login.php?error=wrong");
+
+}
 
 }

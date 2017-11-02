@@ -1,6 +1,7 @@
 <html>
 <head>
     <style>
+
         /**navbar starts-- **/
         .topnav {
             overflow: hidden;
@@ -46,6 +47,13 @@
             background-color:grey;
             color: white;
         }
+        .badge{
+            color: white;
+            border: solid 1px red;
+            background-color: red;
+            padding: 3px 10px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <?php
@@ -56,14 +64,33 @@ include ("connect.php");
 
 if(isset($_SESSION['custID'])){
     $custid = $_SESSION['custID'];
-    ?>
+
+    global $db;
+
+$free = "pending";
+$r = mysqli_query($db, "SELECT count(feedbackID) FROM feedback WHERE status = '$free' AND custID = '$custid'");
+while($row1 = mysqli_fetch_assoc($r)){
+$bdge = $row1['count(feedbackID)'];
+?>
 <body>
 <!-- navbar starts-->
 <div class="topnav" id="myTopnav">
     <a style="float: left; padding: 0px 16px; margin-left: 30px;" href="index.php"><img src="image/logo.jpg" height="140"></a>
-    <a  style="margin-top: 15px; " href="logout.php">logout</a>
-    <a  style="margin-top: 15px; " href="medicalform.php">Consult a Doctor</a>
-    <a  style="margin-top: 15px;" href="feedback.php">Feedback </a>
+    <a style="margin-top: 15px; " href="logout.php">logout</a>
+    <a style="margin-top: 15px; " href="medicalform.php">Consult a Doctor</a>
+    <?php
+    if ($bdge > 0) {
+        ?>
+        <a style="margin-top: 15px;" href="feedback.php">Feedback <span class="badge" id="spanner"><?php echo $bdge; ?></span></a>
+        <?php
+    } else {
+        ?>
+        <a style="margin-top: 15px;" href="feedback.php">Feedback</span></a>
+        <?php
+    }
+    }
+    ?>
+
     <a  style="margin-top: 15px; " href="index.php">Home</a>
     <a href="javascript:void(0);" style="font-size:35px;" class="icon" onclick="myFunction()">&#9776;</a> <!-- navbar icon-->
 </div>
@@ -74,8 +101,8 @@ if(isset($_SESSION['custID'])){
         <th>Feedback Date</th>
         <th>Symptoms</th>
         <th>Feedback</th>
-        <th>Doctor ID</th>
         <th>Doctor's Name</th>
+        <th>View</th>
     </tr>
     <?php
 
@@ -107,8 +134,15 @@ if(isset($_SESSION['custID'])){
         <td><?php echo $date; ?></td>
         <td><?php echo $symptoms; ?></td>
         <td><?php echo $feedback; ?></td>
-        <td><?php echo $doctid; ?></td>
         <td><?php echo $docname; ?></td>
+        <td>
+
+            <form action="view_feedback.php" method="post">
+                <input type="hidden" name="feedid" value=" <?php echo $feedid; ?>">
+                <input type="hidden" name="doc" value=" <?php echo $docname; ?>">
+                <button type="submit" STYLE="width: 150px;font-size: 20px;margin-top: 2%"> View </button>
+            </form>
+        </td>
 
         <?php }?>
         <?php }?>

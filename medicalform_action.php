@@ -1,3 +1,9 @@
+<html>
+<head>
+    <script src="dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+</head>
+<body>
 <?php
 include ("connect.php");
 
@@ -24,12 +30,38 @@ $result = $db->query($sql) or trigger_error($db->error."[$sql]");
 
 if ($result)
 {
+    ?>
 
-  header("Location: medicalform.php?message=success");
-
+<script>
+    swal({
+        title: "Success",
+        text: "Consultation sent successfully!",
+        type: "success",
+        timer: 1500,
+        showConfirmButton: false
+    });
+    setTimeout(function () {
+        location.href = "medicalform.php"
+    }, 1000);
+</script>
+<?php
 }
 else
 {
+    ?>
 
-    header("Location: medicalform.php?error=fail");
+<script>
+    swal({
+        title: "Error!",
+        text: "An error ocurred",
+        type: "error",
+        timer: 1500,
+        showConfirmButton: false
+    });
+    setTimeout(function () {
+        location.href = "medicalform.php"
+    }, 1000);
+</script>
+<?php
 }
+?>

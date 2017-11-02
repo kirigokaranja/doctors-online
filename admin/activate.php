@@ -1,3 +1,9 @@
+<html>
+<head>
+    <script src="../dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../dist/sweetalert.css">
+</head>
+<body>
 <?php
 include ("connect.php");
 $id = $_POST["id"];
@@ -14,9 +20,20 @@ $res = $db->query($s) or trigger_error($db->error."[$s]");
 
 if ($result && $res)
 {
-
-    header("Location: view_doctor.php?message=active");
-
+?>
+<script>
+    swal({
+        title: "Success",
+        text: "Doctor Activated successfully!",
+        type: "success",
+        timer: 1500,
+        showConfirmButton: false
+    });
+    setTimeout(function () {
+        location.href = "view_doctor.php"
+    }, 1000);
+</script>
+<?php
 }
 else
 {

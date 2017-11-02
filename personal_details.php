@@ -67,6 +67,13 @@
             resize: vertical;
             border-radius: 6px;
         }
+        .badge{
+            color: white;
+            border: solid 1px red;
+            background-color: red;
+            padding: 3px 10px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -76,13 +83,34 @@ session_start();
 include ("connect.php");
 
 
-if(isset($_SESSION['custID'])){ ?>
+if(isset($_SESSION['custID'])){
+    $custid = $_SESSION['custID'];
+
+    global $db;
+
+    $free = "pending";
+    $r = mysqli_query($db, "SELECT count(feedbackID) FROM feedback WHERE status = '$free' AND custID = '$custid'");
+    while($row1 = mysqli_fetch_assoc($r)){
+        $bdge = $row1['count(feedbackID)'];
+    ?>
 <!-- navbar starts-->
 <div class="topnav" id="myTopnav">
     <a style="float: left; padding: 0px 16px; margin-left: 30px;" href="index.php"><img src="image/logo.jpg" height="140"></a>
     <a  style="margin-top: 15px; " href="logout.php">logout</a>
     <a  style="margin-top: 15px; " href="medicalform.php">Consult a Doctor</a>
-    <a  style="margin-top: 15px;" href="feedback.php">Feedback </a>
+    <?php
+    if ($bdge > 0) {
+        ?>
+        <a  style="margin-top: 15px;" href="feedback.php">Feedback <span class="badge" id="spanner"><?php echo $bdge;?></span></a>
+        <?php
+    } else {
+        ?>
+        <a  style="margin-top: 15px;" href="feedback.php">Feedback</a>
+        <?php
+    }
+    }
+    ?>
+
     <a  style="margin-top: 15px; " href="index.php">Home</a>
     <a href="javascript:void(0);" style="font-size:35px;" class="icon" onclick="myFunction()">&#9776;</a> <!-- navbar icon-->
 </div>
@@ -134,8 +162,7 @@ if(isset($_SESSION['custID'])){ ?>
                 &emsp;<input type="text" id="code" name="code" style="width: 17%" value="<?php echo $phonecode;?>">--<input type="text" name="number" value="<?php echo $phneno;?>"><br>
                 <label class="label"> Gender</label>
                 &emsp;&emsp;&emsp;&emsp;&ensp;<input type="text" id="" name="gender" value="<?php echo $gender;?>" readonly><br>
-                <label> Date of Birth</label>
-                &emsp;&emsp;&emsp;<input type="date" name="dob" ><br>
+
                 <label> Address</label>
                 &emsp;&emsp;&emsp;&emsp;&ensp;<input type="text" name="address" value="<?php echo $address;?>" >
                 <hr>

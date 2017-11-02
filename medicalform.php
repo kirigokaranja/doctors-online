@@ -102,6 +102,13 @@
         .show {
             display: block;
         }
+        .badge{
+            color: white;
+            border: solid 1px red;
+            background-color: red;
+            padding: 3px 10px;
+            border-radius: 50%;
+        }
         /** dropdown ends**/
     </style>
 </head>
@@ -112,7 +119,14 @@ session_start();
 include ("connect.php");
 
 
-if(isset($_SESSION['custID'])){ ?>
+if(isset($_SESSION['custID'])){
+    $custid = $_SESSION['custID'];
+
+    $free = "pending";
+    $r = mysqli_query($db, "SELECT count(feedbackID) FROM feedback WHERE status = '$free' AND custID = '$custid'");
+while($row1 = mysqli_fetch_assoc($r)){
+    $bdge = $row1['count(feedbackID)'];
+    ?>
 <!-- navbar starts-->
 <div class="topnav" id="myTopnav">
     <a style="float: left; padding: 0px 16px; margin-left: 30px;" href="index.php"><img src="image/logo.jpg" height="140"></a>
@@ -120,7 +134,19 @@ if(isset($_SESSION['custID'])){ ?>
         <a style="margin-top: 15px;"><img class="dropbtn" onclick="myFunction()" src="image/manuser.png" height="30"></a>
         <div class="dropdown-content" id="myDropdown">
             <a href="personal_details.php">Personal Details</a>
-            <a href="feedback.php">Feedback</a>
+            <?php
+            if ($bdge > 0) {
+                ?>
+                <a href="feedback.php">Feedback <span class="badge" id="spanner"><?php echo $bdge;?></span></a>
+                <?php
+            } else {
+                ?>
+                <a href="feedback.php">Feedback </a>
+                <?php
+            }
+            }
+            ?>
+
             <a href="logout.php">Logout</a>
         </div>
     </div>
@@ -175,7 +201,8 @@ if(isset($_SESSION['custID'])){ ?>
                 <input type="checkbox" name="diseases[]" value="Cardiac Diseases">Cardiac Diseases
                 <input type="checkbox" name="diseases[]" value="Diabetes">Diabetes
                 <input type="checkbox" name="diseases[]" value="Hypertension">Hypertension
-                <input type="checkbox" name="diseases[]" value="Epilepsy">Epilepsy<br>
+                <input type="checkbox" name="diseases[]" value="Epilepsy">Epilepsy
+                <input type="checkbox" name="diseases[]" value="None">None<br>
                 <label class="label"> Do you have any medical allergies?</label>
                 <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input type="radio" name="allergies" value="yes">Yes
                 <input type="radio" name="allergies" value="no">No<br>

@@ -1,3 +1,9 @@
+<html>
+<head>
+    <script src="../dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../dist/sweetalert.css">
+</head>
+<body>
 <?php
 include ("connect.php");
 
@@ -17,9 +23,21 @@ $rslt = $db->query($sq) or trigger_error($db->error."[$sq]");
 
 if ($result && $rslt)
 {
+    ?>
 
-    header("Location: add_doctor.php?message=success");
-
+<script>
+    swal({
+        title: "Success",
+        text: "Doctor Added successfully!",
+        type: "success",
+        timer: 1500,
+        showConfirmButton: false
+    });
+    setTimeout(function () {
+        location.href = "view_doctor.php"
+    }, 1000);
+</script>
+<?php
 }
 else
 {

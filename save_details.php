@@ -1,3 +1,9 @@
+<html>
+<head>
+    <script src="dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+</head>
+<body>
 <?php
 include ("connect.php");
 
@@ -16,7 +22,38 @@ global $db;
 $result = $db->query($sql) or trigger_error($db->error."[$sql]");
 
 if ($result){
-    header("Location: personal_details.php?message=success");
-}else{
-    header("Location: personal_details.php?error=fail");
+    ?>
+
+    <script>
+        swal({
+            title: "Success",
+            text: "Details saved successfully!",
+            type: "success",
+            timer: 1500,
+            showConfirmButton: false
+        });
+        setTimeout(function () {
+            location.href = "personal_details.php"
+        }, 1000);
+    </script>
+    <?php
 }
+else
+{
+?>
+
+<script>
+    swal({
+        title: "Error!",
+        text: "An error ocurred",
+        type: "error",
+        timer: 1500,
+        showConfirmButton: false
+    });
+    setTimeout(function () {
+        location.href = "personal_details.php"
+    }, 1000);
+</script>
+<?php
+}
+?>

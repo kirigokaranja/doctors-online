@@ -2,6 +2,7 @@
 <head>
     <title> Admin | Profile</title>
     <link href="css/new.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="css/dropdown.css">
     <style>
         .number{
             margin-left: 40px;
@@ -26,13 +27,18 @@ if(isset($_SESSION['user_type'])){ ?>
     <p style="text-align: center; font-size: 20px; color: white;">Administrator</p>
     <li><a  class="active" href="dashboard.php">Dashboard</a></li>
     <li><a href="add_doctor.php">Add Doctor</a></li>
-    <li><a href="view_doctor.php">View Doctors</a></li>
+    <div class="dropdown">
+        <li><a  href="view_doctor.php">View Doctors</a></li>
+        <div class="dropdown-content">
+            <a href="">Inactive Doctors</a>
+        </div>
+    </div>
     <li><a href="message.php"> Messages</a></li>
     <li><a href="../index.php"> Go to site</a></li>
     <li> <br><button onclick="window.location.href='logout.php'" class="logout">Logout</button></li>
 </ul>
 <div class="content">
-<br>
+    <img src="../image/logo.jpg" height="120" style="float: left;margin-left: 10%;"><br><br>
     <h1 id="prof">DashBoard<h1>
             <?php
 
