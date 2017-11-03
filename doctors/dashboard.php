@@ -1,7 +1,7 @@
 <html>
 <head>
     <title> Admin | Profile</title>
-    <link href="css/new.css" type="text/css" rel="stylesheet">
+    <link href="css/dash.css" type="text/css" rel="stylesheet">
     <style>
         .number{
             margin-left: 40px;
@@ -19,8 +19,13 @@
             border-radius: 50%;
         }
     </style>
+    <script src="../js/Chart.min.js"></script>
 </head>
 <body>
+<script>
+var dates_n = [];
+var dates= [];
+</script>
 <?php
 
 session_start();
@@ -42,6 +47,7 @@ while($row1 = mysqli_fetch_assoc($r)){
 
     while($row = mysqli_fetch_array($res)) {
         $name = $row['name'];
+        $did = $row['doctID'];
 
 
         ?>
@@ -61,34 +67,110 @@ while($row1 = mysqli_fetch_assoc($r)){
 
                 include 'connect.php';
                 global $db;
-                $r = mysqli_query($db, "SELECT count(doctID) FROM doctor_details");
-                while($row1 = mysqli_fetch_assoc($r)){
-                    ?>
-                    <p class="number">
-                        Number of Doctors: <?php echo $row1['count(doctID)'];?>
-                    </p>
-                    <br>
+
+                        $r4 = mysqli_query($db, "SELECT count(feedbackID) FROM feedback WHERE doctID = '$did'");
+                        while($row4 = mysqli_fetch_assoc($r4)){
+
+                            $s3 = "FREE";
+
+                            $r5 = mysqli_query($db, "SELECT count(CONSID) FROM medical_details WHERE selected = '$s3'");
+                            while($row5 = mysqli_fetch_assoc($r5)){
+
+                                $r6 = mysqli_query($db, "SELECT count(feedbackID) FROM feedback WHERE doctID = '$did'");
+                                while($row6 = mysqli_fetch_assoc($r6)){
+                            ?>
+                            <table class="def1">
+                                <tr >
+
+                                    <th style=" background-color: deepskyblue;">Number of Feedback </th>
+                                    <th>&emsp;</th>
+                                    <th colspan="2" style=" background-color: rgb(17, 34, 61);">Number of Consultations</th>
+                                </tr>
+                                <tr>
+
+                                    <td style=" background-color: deepskyblue;"><?php echo $row4['count(feedbackID)'];?></td>
+                                    <td>&emsp;</td>
+                                    <td style=" background-color: rgb(17, 34, 61);"><b> Total Pending</b><br><?php echo $row5['count(CONSID)'];?></td>
+                                    <td style=" background-color: rgb(17, 34, 61);"><b>Yours Viewed</b><br><?php echo $row6['count(feedbackID)'];?></td>
+                                </tr>
+                            </table>
+
                 <?php }?>
+                    <?php }?>
+                <?php }?>
+
                 <?php
-                $r = mysqli_query($db, "SELECT count(custID) FROM personal_details");
-                while($row1 = mysqli_fetch_assoc($r)){
-                    ?>
 
-                    <p class="number">
-                        Number of Total Users: <?php echo $row1['count(custID)'];?>
-                    </p><br>
-                <?php }?>
-                <?php
-                $r = mysqli_query($db, "SELECT count(CONSID) FROM medical_details");
-                while($row1 = mysqli_fetch_assoc($r)){
-                    ?>
-
-                    <p class="number">
-                        Number of Total Consults: <?php echo $row1['count(CONSID)'];?>
-                    </p>
-                <?php }?>
+                global $db;
+                $sql = mysqli_query($db, "SELECT DISTINCT doctID FROM feedback");
+                while($row = mysqli_fetch_assoc($sql)){
+                    $date = $row["doctID"];
 
 
+                    $query1 = mysqli_query($db, "select DISTINCT date, count(feedbackID) as 'total' from feedback where doctID='$date'");
+                    while($row1 = mysqli_fetch_assoc($query1)) {
+                        // $entry = $row1['date'] . ' ' . $row1['total'] . "<br>";
+                        $no = $row1['total'];
+                        $dt = $row1['date'];
+
+                        ?>
+                        <script>
+                            dates_n[dates_n.length]="<?php echo $no; ?>";
+                            dates[dates.length]="<?php echo $dt; ?>";
+                        </script>
+                        <?php
+                    }
+                }
+                ?>
+                <div style="font-size: 15px;text-align: center;color: rgb(25,25,112);">
+                    <br><br><br>
+                    <h1 >Consults per Doctor</h1>
+                    <div style="height: 50%;width: 50%;margin-left: 10%">
+                        <canvas id="myChart" ></canvas>
+                    </div>
+                </div>
+                <script>
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        // The type of chart we want to create
+                        type: 'bar',
+
+                        // The data for our dataset
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                label: "Number of Consults per Day",
+                                backgroundColor: 'rgb(30,144,255)',
+                                borderColor: 'rgb(30,144,255)',
+                                data:dates_n
+                            }]
+                        },
+
+                        // Configuration options go here
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                xAxes: [{
+                                    barPercentage: 0.4,
+                                    scaleLabel:{
+                                        display: true,
+                                        labelString: 'Dates'
+                                    }
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero:true
+                                    },
+                                    scaleLabel:{
+                                        display: true,
+                                        labelString: 'Number of Consults'
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
     </div>
     <?php
 }else{
