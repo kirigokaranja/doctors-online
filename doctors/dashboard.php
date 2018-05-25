@@ -124,7 +124,7 @@ while($row1 = mysqli_fetch_assoc($r)){
                 ?>
                 <div style="font-size: 15px;text-align: center;color: rgb(25,25,112);">
                     <br><br><br>
-                    <h1 >Consults per Doctor</h1>
+                    <h1 >Your Consults</h1>
                     <div style="height: 50%;width: 50%;margin-left: 10%">
                         <canvas id="myChart" ></canvas>
                     </div>
